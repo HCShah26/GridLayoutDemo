@@ -11,6 +11,10 @@ namespace GridLayoutDemo
             InitializeComponent();
         }
 
+        void onRandomizeClicked(object sender, EventArgs e) { Debug.WriteLine("Randomise clicked"); }
+        void onPrevClicked(object sender, EventArgs e) { Debug.WriteLine("Previous clicked"); }
+        void onNextClicked(object sender, EventArgs e) { Debug.WriteLine("Next clicked"); }
+
        void OnSwiped(object sender, SwipedEventArgs e)
         {
             //Debug.WriteLine("****************************************");
