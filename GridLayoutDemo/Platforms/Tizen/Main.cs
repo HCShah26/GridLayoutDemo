@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace GridLayoutDemo
+namespace TileSliderPuzzle
 {
     internal class Program : MauiApplication
     {

@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace GridLayoutDemo
+namespace TileSliderPuzzle
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

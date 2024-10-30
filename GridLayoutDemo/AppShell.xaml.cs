@@ -1,4 +1,4 @@
-﻿namespace GridLayoutDemo
+﻿namespace TileSliderPuzzle
 {
     public partial class AppShell : Shell
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace GridLayoutDemo
+namespace TileSliderPuzzle
 {
     public static class MauiProgram
     {

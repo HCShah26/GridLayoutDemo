@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace GridLayoutDemo
+namespace TileSliderPuzzle
 {
     [Application]
     public class MainApplication : MauiApplication

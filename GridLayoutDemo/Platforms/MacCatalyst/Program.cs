@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace GridLayoutDemo
+namespace TileSliderPuzzle
 {
     public class Program
     {
