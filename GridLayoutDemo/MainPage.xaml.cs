@@ -61,12 +61,16 @@ namespace TileSliderPuzzle
 
        async void OnSwiped(object sender, SwipedEventArgs e)
        {
-            if (!clickedReveal)
+            if (!clickedReveal && _controller.gameStarted)
             {
                 await ShakeEffect((Image)sender);
                 _controller.OnSwipe((Image)sender, tileGrid, (MovementDirection)e.Direction);
                 UpdateLabel();
                 CheckIfPuzzleSolved();
+            }
+            else
+            {
+                CallToActionButton();
             }
         }
 
@@ -75,16 +79,31 @@ namespace TileSliderPuzzle
             //This function will check the following:
             // 1) if Tile tapped is not an empty tile
             // 2) determine the next postion to move
-
-            if (!clickedReveal)
+            if (!clickedReveal && _controller.gameStarted)
             {
                 await ShakeEffect((Image)sender);
                 _controller.OnTap((Image)sender, tileGrid);
                 UpdateLabel();
                 CheckIfPuzzleSolved();
             }
+            else
+            {
+                CallToActionButton();
+            }
         }
 
+        private async void CallToActionButton()
+        {
+            if (!_controller.gameStarted)
+            {
+                await ShakeEffectOnImageButton(newGameBtn);
+            }
+            
+            if (clickedReveal)
+            {
+                await ShakeEffectOnImageButton(hintBtn);
+            }
+        }
         private async Task ShakeEffect(Image image)
         {
             await image.TranslateTo(-10, 0, 50); // Move left
@@ -93,6 +112,13 @@ namespace TileSliderPuzzle
             await image.TranslateTo(0, 0, 50); // Return to center
         }
 
+        private async Task ShakeEffectOnImageButton(ImageButton ibutton)
+        {
+            await ibutton.TranslateTo(-10, 0, 50); // Move left
+            await ibutton.TranslateTo(10, 0, 50); // Move right
+            await ibutton.TranslateTo(-5, 0, 50); // Move left slightly
+            await ibutton.TranslateTo(0, 0, 50); // Return to center
+        }
         private async Task ConfettiEffect()
         {
             for (int i = 0; i < 10; i++) // Create multiple small shapes

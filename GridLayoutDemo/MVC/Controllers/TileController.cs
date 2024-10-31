@@ -12,7 +12,7 @@ namespace TileSliderPuzzle.MVC.Controllers
 {
     public class TileController
     {
-
+        public bool gameStarted = false;
         private readonly TilePuzzleModel? _model = null;
         private readonly ContentPage _view = null;
 
@@ -26,13 +26,12 @@ namespace TileSliderPuzzle.MVC.Controllers
 
         private void InitialiseGame()
         {
-            //_model.NewGame();
             UpdateView(_model.GameGrid);
         }
 
         public string CheckIfPuzzleSolved()
         {
-            bool result = _model.CheckIfPuzzleSolved();
+            bool result = _model.CheckIfPuzzleSolved() & gameStarted;
             return result ? "You Win!" : string.Empty;
         }
 
@@ -46,6 +45,7 @@ namespace TileSliderPuzzle.MVC.Controllers
         {
             _model.NewGame();
             UpdateView(_model.GameGrid);
+            gameStarted = true;
         }
 
         public string RevealPuzzle(bool clickedReveal)

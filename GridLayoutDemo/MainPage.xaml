@@ -100,9 +100,9 @@
                 </Image>
             </Grid>
             <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                <ImageButton Source="prev.png" Clicked="onPrevClicked" Padding="20" />
-                <ImageButton Source="newgame.png" Clicked="onNewGameClicked" Padding="20" />
-                <ImageButton Source="hint.png" Clicked="onRevealClicked" Padding="20" />
+                <ImageButton x:Name="undoBtn" Source="prev.png" Clicked="onPrevClicked" Padding="20" />
+                <ImageButton x:Name="newGameBtn" Source="newgame.png" Clicked="onNewGameClicked" Padding="20" />
+                <ImageButton x:Name="hintBtn" Source="hint.png" Clicked="onRevealClicked" Padding="20" />
             </HorizontalStackLayout>
         </StackLayout>
     </ScrollView>
