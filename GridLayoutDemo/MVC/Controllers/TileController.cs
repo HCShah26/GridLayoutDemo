@@ -58,7 +58,7 @@ namespace TileSliderPuzzle.MVC.Controllers
             else
             {
                 UpdateView(_model.SolvedTileGrid);
-                return "Game Paused - Displaying Solution \nClick on the Right Arrow button to unpause";
+                return "Game Paused - Displaying Solution \nClick on the Hint button to continue!";
             }
         }
 
