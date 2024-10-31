@@ -1,184 +1,76 @@
 ﻿using TileSliderPuzzle.MVC.Enums;
+using TileSliderPuzzle.MVC.Controllers;
 using TileSliderPuzzle.MVC.Models;
+
 using System.Diagnostics;
-using TileSliderPuzzle.MVC.Structs;
-using System.Security.Cryptography.X509Certificates;
-
-
-
 
 namespace TileSliderPuzzle
 {
 
     public partial class MainPage : ContentPage
     {
-        public int randomValidMoves = 0;
+        private bool debugMode = false;
         private bool clickedReveal = false;
-        private static readonly Random _random = new Random();
-        private static TilePuzzleModel _model;
+        private readonly TileController _controller;
         public MainPage()
         {
             InitializeComponent();
-            _model = new TilePuzzleModel();
-        }
-
-        private void DisplayGridM(GridTile[,] thisGrid)
-        {
-            foreach (int thisRow in Enum.GetValues(typeof(GridRow)))
-            {
-                foreach(int thisCol in Enum.GetValues( typeof(GridCol)))
-                {
-                    SetImageInCell(thisGrid[thisRow, thisCol]);
-                }
-            }
-        }
-
-        private void SetImageInCell(GridTile thisTile)
-        {
-            switch (thisTile.Filename)
-            {
-                case "top_left":
-                    tileGrid.SetRow(image1, (int)thisTile.Row);
-                    tileGrid.SetColumn(image1, (int)thisTile.Column);
-                    break;
-                case "top_middle":
-                    tileGrid.SetRow(image2, (int)thisTile.Row);
-                    tileGrid.SetColumn(image2, (int)thisTile.Column);
-                    break;
-                case "top_right":
-                    tileGrid.SetRow(image3, (int)thisTile.Row);
-                    tileGrid.SetColumn(image3, (int)thisTile.Column);
-                    break;
-                case "centre_left":
-                    tileGrid.SetRow(image4, (int)thisTile.Row);
-                    tileGrid.SetColumn(image4, (int)thisTile.Column);
-                    break;
-                case "centre_middle":
-                    tileGrid.SetRow(image5, (int)thisTile.Row);
-                    tileGrid.SetColumn(image5, (int)thisTile.Column);
-                    break;
-                case "centre_right":
-                    tileGrid.SetRow(image6, (int)thisTile.Row);
-                    tileGrid.SetColumn(image6, (int)thisTile.Column);
-                    break;
-                case "bottom_left":
-                    tileGrid.SetRow(image7, (int)thisTile.Row);
-                    tileGrid.SetColumn(image7, (int)thisTile.Column);
-                    break;
-                case "bottom_middle":
-                    tileGrid.SetRow(image8, (int)thisTile.Row);
-                    tileGrid.SetColumn(image8, (int)thisTile.Column);
-                    break;
-                case "bottom_right":
-                    tileGrid.SetRow(image9, (int)thisTile.Row);
-                    tileGrid.SetColumn(image9, (int)thisTile.Column);
-                    break;
-            }
-        }
-        private void ResetPuzzle()
-        {
-            
-            _model.NewGame();
-            UpdateLabel();
+            _controller = new TileController(this);
         }
 
         private void UpdateLabel()
         {
-            lblSolved.Text = "";
-            lblGame.Text = "";
-            GridTile gGrid, sGrid;
-            foreach (int sRow in Enum.GetValues(typeof(GridRow)))
-            {
-                foreach (int sCol in Enum.GetValues(typeof(GridCol)))
-                {
-                    sGrid = _model.SolvedTileGrid[sRow, sCol];
-                    gGrid = _model.GameGrid[sRow, sCol];
-                    lblSolved.Text = lblSolved.Text + $"{sGrid.ToString()}\t";
-                    lblGame.Text = lblGame.Text + $"{gGrid.ToString()}\t";
-                }
-                lblSolved.Text = lblSolved.Text + "\n";
-                lblGame.Text = lblGame.Text + "\n";
-            }
+            var result = _controller.UpdateLabel(debugMode);
+            lblSolved.Text = result.solvedStr;
+            lblGame.Text = result.gameStr;
         }
 
-        void onRandomizeClicked(object sender, EventArgs e)
+        void onNewGameClicked(object sender, EventArgs e)
         {
-            ResetPuzzle();
-            DisplayGridM(_model.GameGrid);
+            _controller.ResetPuzzle();
             
             lblWinStatus.Text = "";
         }
 
 
-        public void MoveTile(Image image, int xRow, int xCol, int mtRow, int mtCol)
+        private async void CheckIfPuzzleSolved()
         {
-            tileGrid.SetColumn(image, mtCol);
-            tileGrid.SetRow(image, mtRow);
-            tileGrid.SetColumn(image1, xCol);
-            tileGrid.SetRow(image1, xRow);
+            lblWinStatus.Text = _controller.CheckIfPuzzleSolved();
+            if (lblWinStatus.Text == "You Win!")
+            {
+                
+                //await ConfettiEffect();
+                for (int i = 0; i < 10; i++)
+                {
+                    await CelebrateWithTextBoxScale();
+                    await CelebrateSolveWithColor();
+                }
+            }
         }
-
-        //private bool CheckTile(int xRow, int xCol, Image correctImage)
-        //{
-        //    Image image;
-        //    image = GetElementAt(xRow, xCol);
-        //    return image.Source == correctImage.Source;
-        //}
-
-        private void CheckIfPuzzleSolved()
-        {
-            bool result = _model.CheckIfPuzzleSolved();
-            lblWinStatus.Text = result ? "You Win!" : string.Empty;
-        }
-
-        //public Image GetElementAt(int row, int col)
-        //{
-        //    foreach (var child in tileGrid.Children)
-        //    {
-        //        if (tileGrid.GetRow(child) == row && tileGrid.GetColumn(child) == col)
-        //        {
-        //            return (Image)child; // Found image, exiting loop
-        //        }
-        //    }
-        //    return null; // Returns null as no image found at specified location (This will never happen!)
-        //}
 
         void onPrevClicked(object sender, EventArgs e) 
         {
-            _model.UndoMove();
-            DisplayGridM(_model.GameGrid);
+            _controller.UndoLastMove();
             UpdateLabel();
         }
-        void onNextClicked(object sender, EventArgs e) 
+        void onRevealClicked(object sender, EventArgs e) 
         {
             clickedReveal = !clickedReveal;
-
-            if (!clickedReveal)
-            {
-                DisplayGridM(_model.GameGrid);
-                lblWinStatus.Text = "";
-            }
-            else
-            {
-                DisplayGridM(_model.SolvedTileGrid);
-                lblWinStatus.Text = "Game Paused - Displaying Solution \nClick on the Right Arrow button to unpause";
-            }
+            lblWinStatus.Text = _controller.RevealPuzzle(clickedReveal);
         }
 
-       void OnSwiped(object sender, SwipedEventArgs e)
+       async void OnSwiped(object sender, SwipedEventArgs e)
        {
             if (!clickedReveal)
             {
-                var image = (Image)sender;
-                int xRow = tileGrid.GetRow(image); int xCol = tileGrid.GetColumn(image);
-                _model.MoveTile(_model.emptyTile, _model.GameGrid[xRow, xCol], (MovementDirection)e.Direction);
-                DisplayGridM(_model.GameGrid);
+                await ShakeEffect((Image)sender);
+                _controller.OnSwipe((Image)sender, tileGrid, (MovementDirection)e.Direction);
                 UpdateLabel();
                 CheckIfPuzzleSolved();
             }
         }
 
-        void OnTapped(object sender, TappedEventArgs e)
+        async void OnTapped(object sender, TappedEventArgs e)
         {
             //This function will check the following:
             // 1) if Tile tapped is not an empty tile
@@ -186,13 +78,48 @@ namespace TileSliderPuzzle
 
             if (!clickedReveal)
             {
-                var image = (Image)sender;
-                int xRow = tileGrid.GetRow(image); int xCol = tileGrid.GetColumn(image);
-                _model.MoveTile(_model.emptyTile, _model.GameGrid[xRow, xCol]);
-                DisplayGridM(_model.GameGrid);
+                await ShakeEffect((Image)sender);
+                _controller.OnTap((Image)sender, tileGrid);
                 UpdateLabel();
                 CheckIfPuzzleSolved();
             }
+        }
+
+        private async Task ShakeEffect(Image image)
+        {
+            await image.TranslateTo(-10, 0, 50); // Move left
+            await image.TranslateTo(10, 0, 50); // Move right
+            await image.TranslateTo(-5, 0, 50); // Move left slightly
+            await image.TranslateTo(0, 0, 50); // Return to center
+        }
+
+        private async Task ConfettiEffect()
+        {
+            for (int i = 0; i < 10; i++) // Create multiple small shapes
+            {
+                var confetti = new BoxView { Color = Colors.Orange, WidthRequest = 10, HeightRequest = 10 };
+                tileGrid.Children.Add(confetti);
+                await confetti.TranslateTo(100, 200, 500); // Move the confetti downward
+                tileGrid.Children.Remove(confetti);
+            }
+        }
+
+        private async Task CelebrateWithTextBoxScale()
+        {
+            // Display the TextBox if hidden
+            lblWinStatus.IsVisible = true;
+
+            // Scale up and then scale back down
+            await lblWinStatus.ScaleTo(2, 200, Easing.CubicInOut); // Slight zoom in
+            await lblWinStatus.ScaleTo(1.0, 200, Easing.CubicInOut); // Zoom back to original size
+        }
+
+        private async Task CelebrateSolveWithColor()
+        {
+            var originalColor = this.BackgroundColor;
+            this.BackgroundColor = Colors.LightGreen; // Success color
+            await Task.Delay(300); // Short delay to show effect
+            this.BackgroundColor = originalColor; // Revert to original color
         }
     }
 

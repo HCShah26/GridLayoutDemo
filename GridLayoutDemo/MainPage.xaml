@@ -23,8 +23,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Image  x:Name="image1" Source="empty_image.png" Grid.Row="0" Grid.Column="0" />
-                <Image x:Name="image2" Source="top_middle.png" Grid.Row="0" Grid.Column="1">
+                <Image  x:Name="top_left" Source="empty_image.png" Grid.Row="0" Grid.Column="0" />
+                <Image x:Name="top_middle" Source="top_middle.png" Grid.Row="0" Grid.Column="1">
                     <Image.GestureRecognizers>
                         <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
                         <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
@@ -33,35 +33,7 @@
                         <TapGestureRecognizer Tapped="OnTapped" />
                     </Image.GestureRecognizers>
                 </Image>
-                <Image x:Name="image3" Source="top_right.png" Grid.Row="0" Grid.Column="2">
-                    <Image.GestureRecognizers>
-                        <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
-                        <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
-                        <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped" />
-                        <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped" />
-                        <TapGestureRecognizer Tapped="OnTapped" />
-                    </Image.GestureRecognizers>
-                </Image>
-
-                <Image x:Name="image4" Source="centre_left.png" Grid.Row="1" Grid.Column="0">
-                    <Image.GestureRecognizers>
-                        <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
-                        <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
-                        <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped" />
-                        <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped" />
-                        <TapGestureRecognizer Tapped="OnTapped" />
-                    </Image.GestureRecognizers>
-                </Image>
-                <Image x:Name="image5" Source="centre_middle.png" Grid.Row="1" Grid.Column="1">
-                    <Image.GestureRecognizers>
-                        <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
-                        <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
-                        <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped" />
-                        <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped" />
-                        <TapGestureRecognizer Tapped="OnTapped" />
-                    </Image.GestureRecognizers>
-                </Image>
-                <Image x:Name="image6" Source="centre_right.png" Grid.Row="1" Grid.Column="2">
+                <Image x:Name="top_right" Source="top_right.png" Grid.Row="0" Grid.Column="2">
                     <Image.GestureRecognizers>
                         <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
                         <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
@@ -71,7 +43,7 @@
                     </Image.GestureRecognizers>
                 </Image>
 
-                <Image x:Name="image7" Source="bottom_left.png" Grid.Row="2" Grid.Column="0">
+                <Image x:Name="centre_left" Source="centre_left.png" Grid.Row="1" Grid.Column="0">
                     <Image.GestureRecognizers>
                         <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
                         <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
@@ -80,7 +52,7 @@
                         <TapGestureRecognizer Tapped="OnTapped" />
                     </Image.GestureRecognizers>
                 </Image>
-                <Image x:Name="image8" Source="bottom_middle.png" Grid.Row="2" Grid.Column="1">
+                <Image x:Name="centre_middle" Source="centre_middle.png" Grid.Row="1" Grid.Column="1">
                     <Image.GestureRecognizers>
                         <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
                         <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
@@ -89,7 +61,35 @@
                         <TapGestureRecognizer Tapped="OnTapped" />
                     </Image.GestureRecognizers>
                 </Image>
-                <Image x:Name="image9" Source="bottom_right.png" Grid.Row="2" Grid.Column="2">
+                <Image x:Name="centre_right" Source="centre_right.png" Grid.Row="1" Grid.Column="2">
+                    <Image.GestureRecognizers>
+                        <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
+                        <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
+                        <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped" />
+                        <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped" />
+                        <TapGestureRecognizer Tapped="OnTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image x:Name="bottom_left" Source="bottom_left.png" Grid.Row="2" Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
+                        <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
+                        <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped" />
+                        <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped" />
+                        <TapGestureRecognizer Tapped="OnTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image x:Name="bottom_middle" Source="bottom_middle.png" Grid.Row="2" Grid.Column="1">
+                    <Image.GestureRecognizers>
+                        <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
+                        <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
+                        <SwipeGestureRecognizer Direction="Down" Swiped="OnSwiped" />
+                        <SwipeGestureRecognizer Direction="Up" Swiped="OnSwiped" />
+                        <TapGestureRecognizer Tapped="OnTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image x:Name="bottom_right" Source="bottom_right.png" Grid.Row="2" Grid.Column="2">
                     <Image.GestureRecognizers>
                         <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
                         <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
@@ -100,9 +100,9 @@
                 </Image>
             </Grid>
             <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                <ImageButton Source="prev.png" Clicked="onPrevClicked"  />
-                <ImageButton Source="random.png" Clicked="onRandomizeClicked"  />
-                <ImageButton Source="next.png" Clicked="onNextClicked"  />
+                <ImageButton Source="prev.png" Clicked="onPrevClicked" Padding="20" />
+                <ImageButton Source="newgame.png" Clicked="onNewGameClicked" Padding="20" />
+                <ImageButton Source="hint.png" Clicked="onRevealClicked" Padding="20" />
             </HorizontalStackLayout>
         </StackLayout>
     </ScrollView>

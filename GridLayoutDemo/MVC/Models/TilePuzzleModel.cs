@@ -4,24 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TileSliderPuzzle.MVC.Enums;
-using TileSliderPuzzle.MVC.Structs;
 
 namespace TileSliderPuzzle.MVC.Models
 {
     class TilePuzzleModel
     {
-        public GridTile[,] GameGrid { get; private set; }
-        public GridTile[,] SolvedTileGrid { get; private set; }
+        public Tile[,] GameGrid { get; private set; }
+        public Tile[,] SolvedTileGrid { get; private set; }
 
-        public GridTile emptyTile; // Maintains location of empty tile
+        public Tile emptyTile; // Maintains location of empty tile
 
         private static readonly Random _random = new Random();
 
-        private Stack<Dictionary<GridTile, GridTile>> moveHistory = new Stack<Dictionary<GridTile, GridTile>>();
+        private Stack<Dictionary<Tile, Tile>> moveHistory = new Stack<Dictionary<Tile, Tile>>();
 
         public TilePuzzleModel()
         {
-            GameGrid = new GridTile[3,3];
+            GameGrid = new Tile[3,3];
             SolvedTileGrid = ResetTileGrid();
             GameGrid = ResetTileGrid();
         }
@@ -40,7 +39,7 @@ namespace TileSliderPuzzle.MVC.Models
             return result;
         }
 
-        private MovementDirection GetValidDirection(GridTile currentTile, GridTile targetTile)
+        private MovementDirection GetValidDirection(Tile currentTile, Tile targetTile)
         {
             if (targetTile.Row + 1 == currentTile.Row)
             { return MovementDirection.Down; }
@@ -60,7 +59,7 @@ namespace TileSliderPuzzle.MVC.Models
             }
         }
 
-        private void MoveOnValidDirection(GridTile currentTile, GridTile targetTile, MovementDirection direction)
+        private void MoveOnValidDirection(Tile currentTile, Tile targetTile, MovementDirection direction)
         {
             //This function will move a tile if the move is valid
             switch (direction)
@@ -93,7 +92,7 @@ namespace TileSliderPuzzle.MVC.Models
 
         }
 
-        public void MoveTile(GridTile currentTile, GridTile targetTile, MovementDirection direction = MovementDirection.None)
+        public void MoveTile(Tile currentTile, Tile targetTile, MovementDirection direction = MovementDirection.None)
         {
             //First save current state in moveHistory
             SaveCurrentState(currentTile, targetTile);
@@ -124,7 +123,7 @@ namespace TileSliderPuzzle.MVC.Models
 
         public void SetGameMoveTile(MovementDirection direction)
         {
-            GridTile nextTile = emptyTile; // Incase the move is not valid, it will swap the same GridCell
+            Tile nextTile = emptyTile; // Incase the move is not valid, it will swap the same GridCell
 
             int randomValidMoves = 0;
 
@@ -195,10 +194,10 @@ namespace TileSliderPuzzle.MVC.Models
             }
         }
 
-        private GridTile[,] ResetTileGrid()
+        private Tile[,] ResetTileGrid()
         {
-            GridTile[,] resetTileGrid;
-            resetTileGrid = new GridTile[3, 3];
+            Tile[,] resetTileGrid;
+            resetTileGrid = new Tile[3, 3];
             string fileName = "";
 
             // This function sets the solved puzzle state
@@ -207,31 +206,31 @@ namespace TileSliderPuzzle.MVC.Models
                 foreach (GridCol SolvedCol in Enum.GetValues(typeof(GridCol)))
                 {
                     fileName = $"{SolvedRow}_{SolvedCol}";
-                    resetTileGrid[(int)SolvedRow, (int)SolvedCol] = new GridTile(SolvedRow, SolvedCol, fileName);
+                    resetTileGrid[(int)SolvedRow, (int)SolvedCol] = new Tile(SolvedRow, SolvedCol, fileName);
                 }
             }
             emptyTile = resetTileGrid[0, 0];
             return resetTileGrid;
         }
 
-        private void SaveCurrentState(GridTile currentTile, GridTile nextTile)
+        private void SaveCurrentState(Tile currentTile, Tile nextTile)
         {
-            var currentState = new Dictionary<GridTile, GridTile>();
+            var currentState = new Dictionary<Tile, Tile>();
             currentState[currentTile] = nextTile;
             moveHistory.Push(currentState);
         }
-        private void SwapTiles(GridTile currentTile, GridTile nextTile )
+        private void SwapTiles(Tile currentTile, Tile nextTile )
         {
             // This function swaps the two tiles passed as currentTile and nextTile
             // currentTile should alway be the empty tile!!!
 
 
             // Copy of current tile
-            GridTile copyTile = currentTile; 
+            Tile copyTile = currentTile; 
 
             // Start the swap
-            currentTile = new GridTile(nextTile.Row, nextTile.Column, currentTile.Filename);
-            nextTile = new GridTile(copyTile.Row, copyTile.Column, nextTile.Filename);
+            currentTile = new Tile(nextTile.Row, nextTile.Column, currentTile.Filename);
+            nextTile = new Tile(copyTile.Row, copyTile.Column, nextTile.Filename);
 
             GameGrid[(int)currentTile.Row, (int)currentTile.Column] = currentTile;
             GameGrid[(int)nextTile.Row, (int)nextTile.Column] = nextTile;
@@ -240,8 +239,8 @@ namespace TileSliderPuzzle.MVC.Models
 
         public void UndoMove()
         {
-            GridTile currentTile;
-            GridTile nextTile;
+            Tile currentTile;
+            Tile nextTile;
 
             if (moveHistory.Count > 0)
             {

@@ -20,6 +20,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
+		<EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+
 		<!-- Display name -->
 		<ApplicationTitle>TileSliderPuzzle</ApplicationTitle>
 
@@ -63,6 +65,8 @@
 	  <None Remove="Resources\Images\centre-left.png" />
 	  <None Remove="Resources\Images\centre-middle.png" />
 	  <None Remove="Resources\Images\centre-right.png" />
+	  <None Remove="Resources\Images\hint.png" />
+	  <None Remove="Resources\Images\newgame.png" />
 	  <None Remove="Resources\Images\top-middle.png" />
 	  <None Remove="Resources\Images\top-right.png" />
 	  <None Remove="Resources\Images\top_left.png" />
